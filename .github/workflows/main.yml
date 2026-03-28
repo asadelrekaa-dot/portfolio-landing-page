@@ -1,0 +1,30 @@
+```
+name: Deploy Portfolio to Hosting
+
+on:
+  push:
+    branches:
+      - main  # Ganti dengan nama branch utama kamu (bisa 'master')
+
+jobs:
+  deploy:
+    name: Upload via FTP
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}       # Contoh: ftp.namadomain.com
+          username: ${{ secrets.FTP_USERNAME }}   # Username FTP dari cPanel/Hostdata
+          password: ${{ secrets.FTP_PASSWORD }}   # Password FTP dari cPanel/Hostdata
+          server-dir: /                           # FTP root sudah di dalam public_html
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            README.md
+```
